@@ -8,9 +8,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import GSpinner from '../../constants/component/spinner/GSpinner';
-import './Home.scss';
+import './Naruto.scss';
 
-class Home extends Component {
+class Naruto extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -181,4 +181,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(Naruto);

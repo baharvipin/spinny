@@ -4,18 +4,18 @@ import React, { lazy } from 'react';
 
 // ---------Lazy loading---------
 // Import components here whose rendering is condionally
-const Home = lazy(() => import('./home/Home'));
+const Naruto = lazy(() => import('./naruto/Naruto'));
 
 // Add every new route here which will be used with authentication.
 const routes = [
   {
-    path: '/home',
+    path: '/naruto',
     exact: true,
-    component: Home
+    component: Naruto
   },
   {
     path: '*',
-    render: () => <Redirect to="/home" />
+    render: () => <Redirect to="/naruto" />
   }
 ];
 
