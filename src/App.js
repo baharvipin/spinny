@@ -1,5 +1,4 @@
 import React, { Component, Suspense, lazy } from 'react';
-import Spinner from 'react-bootstrap/Spinner';
 import GSpinner from './constants/component/spinner/GSpinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
