@@ -1,0 +1,93 @@
+.common-margin {
+  margin: 50px 10px 0;
+}
+
+img {
+  height: 300px;
+  object-fit: fill;
+  align-self: stretch;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
+.card-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 50px;
+  @media screen and (max-width: 575px) {
+    flex-direction: column;
+  }
+}
+
+.card {
+  border: none;
+  border-radius: 15px !important;
+  @extend .common-margin;
+  width: 300px;
+  flex: none !important;
+  .card-title {
+    text-align: center;
+  }
+  @media screen and (max-width: 575px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.search {
+  width: 60%;
+  z-index: 1;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  svg {
+    font-size: 24px;
+    color: black;
+  }
+  @media screen and (max-width: 668px) {
+    width: 80%;
+  }
+}
+
+.button {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  .btn-primary {
+    color: #fff;
+    background-color: #000;
+    border: none;
+    box-shadow: 0px 4px 10px 0px #000;
+    padding: 10px 20px;
+    letter-spacing: 2px;
+    transition: 0.3 ease;
+    &:hover {
+      box-shadow: 0px 2px 8px 0px #000;
+    }
+  }
+}
+
+.form-group {
+  ::placeholder {
+    color: #fff;
+    opacity: 0.3;
+  }
+  .form-control {
+    padding: 35px 20px;
+    font-size: 18px;
+    color: #fff;
+    background: rgb(79, 122, 180);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .input-group-text {
+    padding: 20px;
+    font-size: 18px;
+    color: #fff;
+    cursor: pointer;
+    background: rgb(77, 122, 189);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}

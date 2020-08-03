@@ -1,0 +1,15 @@
+$mSize: 60px;
+$LARGE_FONT: 20px;
+$PRIMARY_COLOR: #fff;
+.main {
+  position: absolute;
+  top: 50%;
+  color: $PRIMARY_COLOR;
+}
+.medium {
+  height: $mSize;
+  width: $mSize;
+  z-index: 1;
+  @extend .main;
+  left: calc(50% - 30px);
+}
