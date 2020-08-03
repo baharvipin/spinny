@@ -1,7 +1,6 @@
 import { Route, Switch, Redirect } from 'react-router-dom';
 import React, { lazy } from 'react';
 
-
 // ---------Lazy loading---------
 // Import components here whose rendering is condionally
 const Naruto = lazy(() => import('./naruto/Naruto'));

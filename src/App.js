@@ -1,5 +1,6 @@
 import React, { Component, Suspense, lazy } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
+import GSpinner from './constants/component/spinner/GSpinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './App.scss';
@@ -10,7 +11,7 @@ const MainLayout = lazy(() => import('./main'));
 class App extends Component {
   //  --------------- Rendering ----------------
   renderSpinner() {
-    return <Spinner animation="border" variant="primary" />;
+    return <GSpinner variant="primary" />;
   }
 
   render() {
