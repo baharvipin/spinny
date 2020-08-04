@@ -16,7 +16,8 @@ const narutoReducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        narutoData: action.narutoData
+        narutoData: action.narutoData,
+        pageNo: action.pageNo
       };
       break;
     case ACTIONS.NARUTO_DATA_FETCH_FAIL:

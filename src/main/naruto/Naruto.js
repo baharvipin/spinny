@@ -8,6 +8,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import GSpinner from '../../constants/component/spinner/GSpinner';
+import GPagination from './GPagination';
 import './Naruto.scss';
 
 class Naruto extends Component {
@@ -15,19 +16,35 @@ class Naruto extends Component {
     super(props);
     this.state = {
       value: '',
-      suggestions: this.props.narutoData.narutoData || 0,
+      suggestions: this.props.narutoData.narutoData || [],
       itemShow: 9,
+      pageNo: this.props.narutoData.pageNo || 1,
       count: 50
     };
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   // lifecycle method start
   componentDidMount() {
-    this.props.dispatch(narutoAction.fetchNarutoData(this.state.count));
+    this.props.dispatch(
+      narutoAction.fetchNarutoData(this.state.count, this.state.pageNo)
+    );
     this.setState({
       ...this.state,
       suggestions: this.props.narutoData.narutoData
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.pageNo !== this.state.pageNo) {
+      this.setState({
+        ...this.state,
+        pageNo: this.state.pageNo
+      });
+      this.props.dispatch(narutoAction.invalidateNarutoData());
+      this.props.dispatch(
+        narutoAction.fetchNarutoData(this.state.count, this.state.pageNo)
+      );
+    }
   }
 
   // lifecycle method end
@@ -43,7 +60,7 @@ class Naruto extends Component {
     if (utils.isDataEmpty(value)) {
       this.setState({
         ...this.state,
-        value: null,
+        value: '',
         suggestions: suggestions
       });
     }
@@ -61,13 +78,25 @@ class Naruto extends Component {
   };
 
   handleShowMore = () => {
-    const suggestions = this.getNarutoData();
+    let { suggestions } = this.state;
+    suggestions = suggestions || this.getNarutoData();
     this.setState({
       ...this.state,
       itemShow: this.state.itemShow + 9,
       suggestions: suggestions
     });
   };
+
+  onChangePage(pageOfItems) {
+    const { suggestions } = this.getNarutoData();
+    // update state with new page of items
+    this.setState({
+      ...this.state,
+      pageNo: pageOfItems,
+      suggestions: suggestions
+    });
+  }
+
   // Handler function end
 
   // Getter function start
@@ -101,7 +130,7 @@ class Naruto extends Component {
               aria-label="Search"
               size="lg"
               aria-describedby="basic-addon2"
-              value={this.state.value}
+              value={this.state.value || ''}
               onChange={e => this.handleSearchInput(e.target.value)}
             />
             <InputGroup.Append onClick={() => this.searchItems()}>
@@ -125,13 +154,14 @@ class Naruto extends Component {
   renderImage() {
     const { suggestions, itemShow } = this.state;
     const data = suggestions || this.getNarutoData();
+    console.log('data', data.length);
     return (
       <div>
         <CardGroup>
           {!utils.isDataEmpty(data)
             ? data.map((item, index) => {
                 return index < itemShow ? (
-                  <Card>
+                  <Card key={'str_' + index}>
                     <Card.Img variant="top" src={item.image_url} />
                     <Card.Body>
                       <Card.Title>{item.title}</Card.Title>
@@ -168,6 +198,12 @@ class Naruto extends Component {
       <div>
         {this.renderSearchExplore()}
         {this.renderImage()}
+        <div className="text-center">
+          <GPagination
+            currentPage={this.state.pageNo}
+            onChangePage={this.onChangePage}
+          />
+        </div>
       </div>
     );
   }

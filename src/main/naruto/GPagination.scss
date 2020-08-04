@@ -1,0 +1,11 @@
+.page-item.active .page-link {
+  z-index: 3;
+  color: #fff;
+  background-color: black;
+  border-color: black;
+}
+.main-pagination {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
