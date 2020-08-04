@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import Pagination from 'react-bootstrap/Pagination';
+import React, { Component } from 'react';
+
 import './GPagination.scss';
 
 class GPagination extends Component {
@@ -94,10 +94,6 @@ class GPagination extends Component {
   }
 }
 
-GPagination.propTypes = {
-  animation: PropTypes.string,
-  className: PropTypes.string
-};
 /* Exports ================================================================== */
 
 export default GPagination;

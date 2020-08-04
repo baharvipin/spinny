@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import narutoAction from '../../store/naruto/narutoAction';
 import Button from 'react-bootstrap/Button';
-import utils from '../../utils/utils';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
-import GSpinner from '../../constants/component/spinner/GSpinner';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import React, { Component } from 'react';
+
 import GPagination from './GPagination';
+import GSpinner from '../../constants/component/spinner/GSpinner';
+import narutoAction from '../../store/naruto/narutoAction';
+import utils from '../../utils/utils';
+
 import './Naruto.scss';
 
 class Naruto extends Component {
