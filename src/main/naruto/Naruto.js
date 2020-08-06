@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import React, { Component } from 'react';
 
-import GPagination from './GPagination';
 import GSpinner from '../../constants/component/spinner/GSpinner';
 import narutoAction from '../../store/naruto/narutoAction';
 import utils from '../../utils/utils';
@@ -19,24 +18,27 @@ class Naruto extends Component {
     this.state = {
       value: '',
       suggestions: this.props.narutoData.narutoData || [],
-      itemShow: 9,
+      itemShow: 49,
       pageNo: this.props.narutoData.pageNo || 1,
-      count: 50
+      count: 55,
+      newData: []
     };
-    this.onChangePage = this.onChangePage.bind(this);
   }
 
   // lifecycle method start
   componentDidMount() {
+    const { newData } = this.state;
     this.props.dispatch(
-      narutoAction.fetchNarutoData(this.state.count, this.state.pageNo)
+      narutoAction.fetchNarutoData(this.state.count, this.state.pageNo, newData)
     );
     this.setState({
       ...this.state,
       suggestions: this.props.narutoData.narutoData
     });
   }
+
   componentDidUpdate(prevProps, prevState) {
+    const { newData } = this.state;
     if (prevState.pageNo !== this.state.pageNo) {
       this.setState({
         ...this.state,
@@ -44,7 +46,11 @@ class Naruto extends Component {
       });
       this.props.dispatch(narutoAction.invalidateNarutoData());
       this.props.dispatch(
-        narutoAction.fetchNarutoData(this.state.count, this.state.pageNo)
+        narutoAction.fetchNarutoData(
+          this.state.count,
+          this.state.pageNo,
+          newData
+        )
       );
     }
   }
@@ -67,6 +73,7 @@ class Naruto extends Component {
       });
     }
   };
+
   searchItems = () => {
     const { value } = this.state;
     const suggestions = this.getNarutoData();
@@ -80,37 +87,28 @@ class Naruto extends Component {
   };
 
   handleShowMore = () => {
-    let { suggestions } = this.state;
-    suggestions = suggestions || this.getNarutoData();
+    let { pageNo } = this.state;
     this.setState({
       ...this.state,
-      itemShow: this.state.itemShow + 9,
-      suggestions: suggestions
+      itemShow: this.state.itemShow + 49,
+      pageNo: pageNo + 1,
+      newData: [...this.getNarutoData()],
+      value: '',
+      suggestions: undefined
     });
   };
-
-  onChangePage(pageOfItems) {
-    const { suggestions } = this.getNarutoData();
-    // update state with new page of items
-    this.setState({
-      ...this.state,
-      pageNo: pageOfItems,
-      suggestions: suggestions
-    });
-  }
 
   // Handler function end
 
   // Getter function start
   getNarutoData() {
     if (
-      utils.isDataEmpty(this.props.narutoData) ||
-      utils.isDataEmpty(this.props.narutoData.narutoData)
+      !utils.isDataEmpty(this.props.narutoData) &&
+      !utils.isDataEmpty(this.props.narutoData.narutoData)
     ) {
-      return [];
+      return this.props.narutoData.narutoData;
     }
-
-    return this.props.narutoData.narutoData;
+    return [];
   }
 
   renderDataNotFound() {
@@ -145,8 +143,8 @@ class Naruto extends Component {
   }
 
   isDisabled() {
-    const { suggestions, itemShow } = this.state;
-    if (!utils.isDataEmpty(suggestions) && suggestions.length <= itemShow) {
+    const { pageNo } = this.state;
+    if (pageNo > 30) {
       return true;
     }
     return false;
@@ -156,7 +154,6 @@ class Naruto extends Component {
   renderImage() {
     const { suggestions, itemShow } = this.state;
     const data = suggestions || this.getNarutoData();
-    console.log('data', data.length);
     return (
       <div>
         <CardGroup>
@@ -187,7 +184,7 @@ class Naruto extends Component {
           disabled={isTrue}
           onClick={() => this.handleShowMore()}
         >
-          SEE MORE
+          LOAD MORE
         </Button>
       </div>
     );
@@ -200,12 +197,6 @@ class Naruto extends Component {
       <div>
         {this.renderSearchExplore()}
         {this.renderImage()}
-        <div className="text-center">
-          <GPagination
-            currentPage={this.state.pageNo}
-            onChangePage={this.onChangePage}
-          />
-        </div>
       </div>
     );
   }

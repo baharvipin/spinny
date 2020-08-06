@@ -14,10 +14,10 @@ const fetchNarutoDataFail = () => {
   };
 };
 
-const fetchNarutoDataSuccess = (narutoData, pageNo) => {
+const fetchNarutoDataSuccess = (narutoData, pageNo, prevData) => {
   return {
     type: ACTIONS.NARUTO_DATA_FETCH_SUCCESS,
-    narutoData: narutoData,
+    narutoData: [...prevData , ...narutoData],
     pageNo: pageNo
   };
 };
@@ -28,7 +28,7 @@ const invalidateNarutoData = () => {
   };
 };
 
-const fetchNarutoData = (count, pageNo) => {
+const fetchNarutoData = (count, pageNo, prevData) => {
   return function(dispatch, getState) {
     const currentState = getState().narutoData;
     if (!currentState.isInvalidated) return null;
@@ -39,7 +39,9 @@ const fetchNarutoData = (count, pageNo) => {
         `https://api.jikan.moe/v3/search/anime?q=naruto&limit=${count}&page=${pageNo}`
       )
       .then(function(response) {
-        dispatch(fetchNarutoDataSuccess(response.data.results, pageNo));
+        dispatch(
+          fetchNarutoDataSuccess(response.data.results, pageNo, prevData)
+        );
       })
       .catch(function(err) {
         dispatch(fetchNarutoDataFail(err));
